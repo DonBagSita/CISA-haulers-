@@ -1,0 +1,1267 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CISA Hauliers Limited — Heavy Haulage & Crane Hire, Kenya</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --navy: #0B1220;
+    --navy-mid: #111827;
+    --navy-light: #1E2D45;
+    --orange: #F97316;
+    --orange-dim: #C2510F;
+    --slate: #94A3B8;
+    --slate-light: #CBD5E1;
+    --white: #F8FAFC;
+    --gray-dark: #1C2A3A;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--navy);
+    color: var(--white);
+    overflow-x: hidden;
+  }
+
+  /* ─── NAV ─── */
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1.25rem 4rem;
+    background: transparent;
+    transition: background 0.4s ease, backdrop-filter 0.4s ease;
+  }
+  nav.scrolled {
+    background: rgba(11,18,32,0.92);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid rgba(249,115,22,0.15);
+  }
+  .nav-logo {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1.6rem;
+    letter-spacing: 0.12em;
+    color: var(--white);
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+  .nav-logo span { color: var(--orange); }
+  .nav-links {
+    display: flex;
+    gap: 2.5rem;
+    list-style: none;
+  }
+  .nav-links a {
+    font-size: 0.8rem;
+    font-weight: 500;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--slate-light);
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+  .nav-links a:hover { color: var(--orange); }
+  .nav-cta {
+    background: var(--orange);
+    color: #fff !important;
+    padding: 0.55rem 1.4rem;
+    border-radius: 2px;
+    font-weight: 600 !important;
+    letter-spacing: 0.08em;
+    transition: background 0.2s !important;
+  }
+  .nav-cta:hover { background: var(--orange-dim) !important; color: #fff !important; }
+
+  /* ─── HERO SCROLL EXPANSION ─── */
+  #hero-wrapper {
+    position: relative;
+    height: 300vh;
+  }
+  #hero-sticky {
+    position: sticky;
+    top: 0;
+    height: 100vh;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  /* Background (always full-screen) */
+  #hero-bg {
+    position: absolute;
+    inset: 0;
+    background: var(--navy);
+    z-index: 0;
+  }
+  #hero-bg::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to bottom, rgba(11,18,32,0.3) 0%, rgba(11,18,32,0.7) 100%);
+    z-index: 1;
+  }
+  #hero-bg-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    opacity: 0.55;
+    transform: scale(1.04);
+  }
+
+  /* Expanding card */
+  #hero-card {
+    position: relative;
+    z-index: 10;
+    width: 68vw;
+    height: 72vh;
+    border-radius: 8px;
+    overflow: hidden;
+    will-change: width, height, border-radius;
+    box-shadow: 0 40px 120px rgba(0,0,0,0.7);
+  }
+  #hero-card img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.1s linear;
+  }
+  #hero-card-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+      160deg,
+      rgba(11,18,32,0.05) 0%,
+      rgba(11,18,32,0.65) 100%
+    );
+    z-index: 2;
+  }
+
+  /* Title that splits */
+  #hero-title {
+    position: absolute;
+    z-index: 20;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    pointer-events: none;
+    gap: 0;
+  }
+  .hero-word {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(5rem, 12vw, 10rem);
+    line-height: 0.9;
+    letter-spacing: 0.06em;
+    color: #fff;
+    will-change: transform, opacity;
+    display: block;
+  }
+  .hero-word.left { transform-origin: left center; }
+  .hero-word.right { transform-origin: right center; }
+  #hero-tagline {
+    position: absolute;
+    bottom: 2.5rem;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 20;
+    font-size: 0.75rem;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--orange);
+    font-weight: 500;
+    white-space: nowrap;
+    will-change: opacity;
+  }
+
+  #hero-scroll-hint {
+    position: absolute;
+    bottom: 2rem;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 21;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.4rem;
+    opacity: 1;
+    transition: opacity 0.3s;
+  }
+  #hero-scroll-hint span {
+    font-size: 0.65rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--slate);
+  }
+  .scroll-arrow {
+    width: 20px;
+    height: 20px;
+    border-right: 2px solid var(--orange);
+    border-bottom: 2px solid var(--orange);
+    transform: rotate(45deg);
+    animation: bounce 1.6s ease-in-out infinite;
+  }
+  @keyframes bounce {
+    0%, 100% { transform: rotate(45deg) translateY(0); }
+    50% { transform: rotate(45deg) translateY(5px); }
+  }
+
+  /* ─── AFTER HERO ─── */
+  #main-content {
+    position: relative;
+    z-index: 5;
+    background: var(--navy);
+  }
+
+  /* ─── ABOUT ─── */
+  .section { padding: 7rem 4rem; }
+  .section-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.7rem;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--orange);
+    margin-bottom: 1.2rem;
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+  }
+  .section-label::before {
+    content: '';
+    display: inline-block;
+    width: 2rem;
+    height: 1px;
+    background: var(--orange);
+  }
+  .section-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(2.8rem, 5vw, 5rem);
+    line-height: 1;
+    letter-spacing: 0.03em;
+    color: var(--white);
+    margin-bottom: 1.5rem;
+  }
+  .section-title em {
+    font-style: normal;
+    color: var(--orange);
+  }
+
+  #about {
+    background: var(--navy-mid);
+    position: relative;
+    overflow: hidden;
+  }
+  #about::before {
+    content: 'CORRIDOR';
+    position: absolute;
+    right: -2rem;
+    top: 50%;
+    transform: translateY(-50%) rotate(90deg);
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 10rem;
+    color: rgba(255,255,255,0.025);
+    letter-spacing: 0.1em;
+    pointer-events: none;
+    white-space: nowrap;
+  }
+  .about-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 5rem;
+    align-items: center;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+  .about-body {
+    font-size: 1.05rem;
+    line-height: 1.8;
+    color: var(--slate-light);
+    margin-bottom: 2rem;
+  }
+  .about-body strong { color: var(--white); font-weight: 600; }
+  .about-stats {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.5rem;
+    margin-top: 2.5rem;
+  }
+  .stat-card {
+    border-left: 2px solid var(--orange);
+    padding: 1rem 1.25rem;
+    background: rgba(249,115,22,0.05);
+  }
+  .stat-num {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 3rem;
+    color: var(--orange);
+    line-height: 1;
+  }
+  .stat-label {
+    font-size: 0.78rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--slate);
+    margin-top: 0.3rem;
+  }
+  .about-img-wrap {
+    position: relative;
+    height: 480px;
+  }
+  .about-img-wrap img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 4px;
+  }
+  .about-img-badge {
+    position: absolute;
+    bottom: -1.5rem;
+    left: -1.5rem;
+    background: var(--orange);
+    color: #fff;
+    padding: 1.5rem;
+    border-radius: 2px;
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1.1rem;
+    letter-spacing: 0.08em;
+    line-height: 1.3;
+    text-align: center;
+    max-width: 150px;
+  }
+
+  /* ─── SERVICES ─── */
+  #services {
+    background: var(--navy);
+    position: relative;
+  }
+  .services-header {
+    max-width: 1200px;
+    margin: 0 auto 4rem;
+    text-align: center;
+  }
+  .services-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5px;
+    max-width: 1200px;
+    margin: 0 auto;
+    background: rgba(255,255,255,0.06);
+  }
+  .service-card {
+    background: var(--navy);
+    padding: 3rem 2.5rem;
+    position: relative;
+    overflow: hidden;
+    transition: background 0.3s;
+    cursor: default;
+  }
+  .service-card::before {
+    content: '';
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    height: 2px;
+    background: var(--orange);
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.4s ease;
+  }
+  .service-card:hover { background: var(--navy-light); }
+  .service-card:hover::before { transform: scaleX(1); }
+  .service-icon {
+    width: 48px;
+    height: 48px;
+    color: var(--orange);
+    margin-bottom: 1.5rem;
+  }
+  .service-num {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.65rem;
+    color: var(--slate);
+    letter-spacing: 0.2em;
+    margin-bottom: 0.8rem;
+  }
+  .service-name {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1.8rem;
+    letter-spacing: 0.05em;
+    color: var(--white);
+    margin-bottom: 1rem;
+  }
+  .service-desc {
+    font-size: 0.9rem;
+    line-height: 1.75;
+    color: var(--slate);
+  }
+  .service-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-top: 1.5rem;
+  }
+  .tag {
+    font-size: 0.68rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    padding: 0.3rem 0.75rem;
+    border: 1px solid rgba(249,115,22,0.35);
+    color: var(--orange);
+    border-radius: 1px;
+  }
+
+  /* ─── FLEET GALLERY ─── */
+  #fleet {
+    background: var(--navy-mid);
+    overflow: hidden;
+  }
+  .fleet-header {
+    max-width: 1200px;
+    margin: 0 auto 3rem;
+  }
+  .masonry-grid {
+    column-count: 3;
+    column-gap: 1rem;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+  .masonry-item {
+    break-inside: avoid;
+    margin-bottom: 1rem;
+    position: relative;
+    overflow: hidden;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+  .masonry-item img {
+    width: 100%;
+    display: block;
+    object-fit: cover;
+    transition: transform 0.5s ease;
+    filter: grayscale(20%);
+  }
+  .masonry-item:hover img {
+    transform: scale(1.04);
+    filter: grayscale(0%);
+  }
+  .masonry-item-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to top, rgba(11,18,32,0.8) 0%, transparent 60%);
+    opacity: 0;
+    transition: opacity 0.35s;
+    display: flex;
+    align-items: flex-end;
+    padding: 1rem;
+  }
+  .masonry-item:hover .masonry-item-overlay { opacity: 1; }
+  .masonry-item-label {
+    font-size: 0.72rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--orange);
+    font-family: 'DM Mono', monospace;
+  }
+
+  /* ─── TRUST BAR ─── */
+  #trust {
+    background: var(--navy-light);
+    padding: 5rem 4rem;
+    position: relative;
+    overflow: hidden;
+  }
+  #trust::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: repeating-linear-gradient(
+      -45deg,
+      transparent,
+      transparent 40px,
+      rgba(249,115,22,0.025) 40px,
+      rgba(249,115,22,0.025) 41px
+    );
+    pointer-events: none;
+  }
+  .trust-inner {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 2rem;
+    position: relative;
+    z-index: 1;
+  }
+  .trust-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 1rem;
+    padding: 2rem 1.5rem;
+    border: 1px solid rgba(255,255,255,0.07);
+    background: rgba(11,18,32,0.4);
+    border-radius: 4px;
+    transition: border-color 0.3s, background 0.3s;
+  }
+  .trust-item:hover {
+    border-color: rgba(249,115,22,0.35);
+    background: rgba(249,115,22,0.06);
+  }
+  .trust-icon {
+    width: 40px;
+    height: 40px;
+    color: var(--orange);
+  }
+  .trust-title {
+    font-weight: 600;
+    font-size: 0.95rem;
+    color: var(--white);
+  }
+  .trust-desc {
+    font-size: 0.8rem;
+    color: var(--slate);
+    line-height: 1.6;
+  }
+
+  /* ─── CONTACT ─── */
+  #contact {
+    background: var(--navy);
+    position: relative;
+  }
+  #contact::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--orange), transparent);
+  }
+  .contact-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 6rem;
+    max-width: 1200px;
+    margin: 0 auto;
+    align-items: start;
+  }
+  .contact-info p {
+    font-size: 1rem;
+    line-height: 1.8;
+    color: var(--slate-light);
+    margin-bottom: 2.5rem;
+  }
+  .contact-detail {
+    display: flex;
+    align-items: flex-start;
+    gap: 1rem;
+    margin-bottom: 1.25rem;
+  }
+  .contact-detail-icon {
+    width: 20px;
+    height: 20px;
+    color: var(--orange);
+    flex-shrink: 0;
+    margin-top: 0.1rem;
+  }
+  .contact-detail-text {
+    font-size: 0.9rem;
+    color: var(--slate-light);
+    line-height: 1.6;
+  }
+  .contact-detail-text strong {
+    display: block;
+    color: var(--white);
+    font-weight: 600;
+    margin-bottom: 0.15rem;
+    font-size: 0.78rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+
+  .form-group {
+    margin-bottom: 1.25rem;
+  }
+  .form-label {
+    display: block;
+    font-size: 0.7rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--slate);
+    margin-bottom: 0.5rem;
+    font-family: 'DM Mono', monospace;
+  }
+  .form-input,
+  .form-select,
+  .form-textarea {
+    width: 100%;
+    background: rgba(255,255,255,0.05);
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 2px;
+    padding: 0.9rem 1rem;
+    color: var(--white);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.95rem;
+    outline: none;
+    transition: border-color 0.2s;
+    appearance: none;
+  }
+  .form-input:focus,
+  .form-select:focus,
+  .form-textarea:focus {
+    border-color: var(--orange);
+    background: rgba(249,115,22,0.05);
+  }
+  .form-input::placeholder,
+  .form-textarea::placeholder { color: rgba(148,163,184,0.5); }
+  .form-select option { background: var(--navy-mid); color: var(--white); }
+  .form-textarea { resize: vertical; min-height: 120px; }
+  .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+  .btn-primary {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.6rem;
+    background: var(--orange);
+    color: #fff;
+    border: none;
+    padding: 1rem 2.5rem;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.85rem;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    cursor: pointer;
+    border-radius: 2px;
+    transition: background 0.2s, transform 0.15s;
+    width: 100%;
+    justify-content: center;
+    margin-top: 0.5rem;
+  }
+  .btn-primary:hover { background: var(--orange-dim); }
+  .btn-primary:active { transform: scale(0.98); }
+
+  /* ─── FOOTER ─── */
+  footer {
+    background: var(--gray-dark);
+    padding: 3rem 4rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-top: 1px solid rgba(255,255,255,0.07);
+    flex-wrap: wrap;
+    gap: 1.5rem;
+  }
+  .footer-logo {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1.4rem;
+    letter-spacing: 0.12em;
+    color: var(--white);
+  }
+  .footer-logo span { color: var(--orange); }
+  .footer-copy {
+    font-size: 0.78rem;
+    color: var(--slate);
+    letter-spacing: 0.05em;
+  }
+  .footer-links {
+    display: flex;
+    gap: 2rem;
+    list-style: none;
+  }
+  .footer-links a {
+    font-size: 0.75rem;
+    color: var(--slate);
+    text-decoration: none;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    transition: color 0.2s;
+  }
+  .footer-links a:hover { color: var(--orange); }
+
+  /* ─── WHATSAPP FLOAT ─── */
+  #wa-btn {
+    position: fixed;
+    bottom: 2rem;
+    right: 2rem;
+    z-index: 900;
+    width: 56px;
+    height: 56px;
+    background: #25D366;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 4px 20px rgba(37,211,102,0.4);
+    cursor: pointer;
+    text-decoration: none;
+    transition: transform 0.2s, box-shadow 0.2s;
+    animation: wa-pulse 2.5s ease-in-out infinite;
+  }
+  #wa-btn:hover {
+    transform: scale(1.1);
+    box-shadow: 0 6px 28px rgba(37,211,102,0.6);
+    animation: none;
+  }
+  #wa-btn svg { color: #fff; }
+  @keyframes wa-pulse {
+    0%, 100% { box-shadow: 0 4px 20px rgba(37,211,102,0.4); }
+    50% { box-shadow: 0 4px 32px rgba(37,211,102,0.7), 0 0 0 8px rgba(37,211,102,0.1); }
+  }
+
+  /* ─── DIVIDER ─── */
+  .divider {
+    border: none;
+    border-top: 1px solid rgba(255,255,255,0.07);
+  }
+
+  /* ─── CORRIDOR MARQUEE ─── */
+  .marquee-wrap {
+    background: var(--orange);
+    padding: 0.85rem 0;
+    overflow: hidden;
+    white-space: nowrap;
+  }
+  .marquee-track {
+    display: inline-block;
+    animation: marquee 22s linear infinite;
+  }
+  .marquee-item {
+    display: inline-block;
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 0.95rem;
+    letter-spacing: 0.2em;
+    color: #fff;
+    padding: 0 3rem;
+  }
+  .marquee-item::after {
+    content: '◆';
+    margin-left: 3rem;
+    opacity: 0.5;
+  }
+  @keyframes marquee {
+    from { transform: translateX(0); }
+    to { transform: translateX(-50%); }
+  }
+
+  /* ─── SCROLL ANIMATIONS ─── */
+  .reveal {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 0.7s ease, transform 0.7s ease;
+  }
+  .reveal.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* ─── RESPONSIVE ─── */
+  @media (max-width: 900px) {
+    nav { padding: 1rem 1.5rem; }
+    .nav-links { display: none; }
+    .section { padding: 5rem 1.5rem; }
+    .about-grid,
+    .contact-grid { grid-template-columns: 1fr; gap: 3rem; }
+    .services-grid { grid-template-columns: 1fr; }
+    .masonry-grid { column-count: 2; }
+    .trust-inner { grid-template-columns: 1fr 1fr; }
+    footer { flex-direction: column; text-align: center; }
+    .form-row { grid-template-columns: 1fr; }
+    #hero-card { width: 90vw; height: 60vh; }
+    .hero-word { font-size: clamp(3.5rem, 14vw, 6rem); }
+  }
+  @media (max-width: 600px) {
+    .masonry-grid { column-count: 1; }
+    .trust-inner { grid-template-columns: 1fr; }
+    .about-stats { grid-template-columns: 1fr 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav id="navbar">
+  <a href="#" class="nav-logo">CISA<span>.</span></a>
+  <ul class="nav-links">
+    <li><a href="#about">About</a></li>
+    <li><a href="#services">Services</a></li>
+    <li><a href="#fleet">Fleet</a></li>
+    <li><a href="#contact" class="nav-cta">Get a Quote</a></li>
+  </ul>
+</nav>
+
+<!-- HERO SCROLL EXPANSION -->
+<section id="hero-wrapper">
+  <div id="hero-sticky">
+    <!-- full-screen background -->
+    <div id="hero-bg">
+      <img id="hero-bg-img" src="IMG-20260405-WA0003.jpg" alt="Cisa Haulers fleet" loading="eager">
+    </div>
+
+    <!-- expanding card -->
+    <div id="hero-card">
+      <img id="hero-card-img" src="IMG-20260405-WA0003.jpg" alt="Heavy haulage in Kenya">
+      <div id="hero-card-overlay"></div>
+    </div>
+
+    <!-- title words -->
+    <div id="hero-title">
+      <span class="hero-word left" id="word-cisa">CISA</span>
+      <span class="hero-word right" id="word-hauliers">HAULIERS</span>
+      <div id="hero-tagline">Contractors · Transporters · Commission Agents</div>
+    </div>
+
+    <!-- scroll hint (only at top) -->
+    <div id="hero-scroll-hint">
+      <span>Scroll</span>
+      <div class="scroll-arrow"></div>
+    </div>
+  </div>
+</section>
+
+<!-- MARQUEE -->
+<div class="marquee-wrap">
+  <div class="marquee-track">
+    <span class="marquee-item">Mombasa Port</span>
+    <span class="marquee-item">Nairobi</span>
+    <span class="marquee-item">Kampala Corridor</span>
+    <span class="marquee-item">Heavy Haulage</span>
+    <span class="marquee-item">Crane Hire 10T–50T</span>
+    <span class="marquee-item">Project Logistics</span>
+    <span class="marquee-item">Industrial Supply Chain</span>
+    <span class="marquee-item">Mombasa Port</span>
+    <span class="marquee-item">Nairobi</span>
+    <span class="marquee-item">Kampala Corridor</span>
+    <span class="marquee-item">Heavy Haulage</span>
+    <span class="marquee-item">Crane Hire 10T–50T</span>
+    <span class="marquee-item">Project Logistics</span>
+    <span class="marquee-item">Industrial Supply Chain</span>
+  </div>
+</div>
+
+<!-- MAIN CONTENT -->
+<main id="main-content">
+
+  <!-- ABOUT -->
+  <section id="about" class="section">
+    <div class="about-grid">
+      <div>
+        <div class="section-label reveal">Who We Are</div>
+        <h2 class="section-title reveal">The Corridor <em>Specialists</em></h2>
+        <p class="about-body reveal">
+          CISA Hauliers Limited is Kenya's trusted name in <strong>heavy haulage, crane hire, and project logistics</strong> — operating across the critical <strong>Mombasa–Nairobi–Uganda Corridor</strong> and beyond. From the port's edge to your project site, we move what others won't.
+        </p>
+        <p class="about-body reveal">
+          With a fleet of low-bed trailers, flatbeds, and crane-equipped rigs, we handle oversized machinery, industrial equipment, oil & gas infrastructure, and bulk cargo with precision and care. Our operators are <strong>certified, experienced, and safety-first</strong> — every load, every time.
+        </p>
+        <div class="about-stats">
+          <div class="stat-card reveal">
+            <div class="stat-num">15+</div>
+            <div class="stat-label">Years in operation</div>
+          </div>
+          <div class="stat-card reveal">
+            <div class="stat-num">50T</div>
+            <div class="stat-label">Max crane capacity</div>
+          </div>
+          <div class="stat-card reveal">
+            <div class="stat-num">3</div>
+            <div class="stat-label">Countries covered</div>
+          </div>
+          <div class="stat-card reveal">
+            <div class="stat-num">24/7</div>
+            <div class="stat-label">Operational support</div>
+          </div>
+        </div>
+      </div>
+      <div class="about-img-wrap reveal">
+        <img src="IMG-20260405-WA0025.jpg" alt="Cisa Haulers low-bed trailers at yard">
+        <div class="about-img-badge">
+          EAST AFRICA'S<br>CORRIDOR<br>SPECIALISTS
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SERVICES -->
+  <section id="services" class="section">
+    <div class="services-header">
+      <div class="section-label reveal" style="justify-content:center">What We Do</div>
+      <h2 class="section-title reveal">Our <em>Services</em></h2>
+    </div>
+    <div class="services-grid reveal">
+
+      <!-- Card 1 -->
+      <div class="service-card">
+        <div class="service-num">01</div>
+        <svg class="service-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M1 17V9a2 2 0 012-2h16l3 6v4"/><path d="M5 17a2 2 0 104 0M15 17a2 2 0 104 0"/><path d="M3 9h14"/></svg>
+        <div class="service-name">Heavy Haulage</div>
+        <p class="service-desc">Low-bed and flatbed transportation of oversized and overweight cargo — construction machinery, industrial plant, tanks, and OOG freight — across East Africa.</p>
+        <div class="service-tags">
+          <span class="tag">Low-beds</span>
+          <span class="tag">Flatbeds</span>
+          <span class="tag">OOG Cargo</span>
+          <span class="tag">Wide Load</span>
+        </div>
+      </div>
+
+      <!-- Card 2 -->
+      <div class="service-card">
+        <div class="service-num">02</div>
+        <svg class="service-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><line x1="12" y1="2" x2="12" y2="6"/><line x1="12" y1="18" x2="12" y2="22"/><path d="M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4"/><path d="M8 12a4 4 0 008 0"/><path d="M12 6v6l4 2"/></svg>
+        <div class="service-name">Crane Hire</div>
+        <p class="service-desc">Mobile crane hire from 10T to 50T capacity with certified operators. Ideal for port lifts, factory installations, and infrastructure projects requiring precision lifting.</p>
+        <div class="service-tags">
+          <span class="tag">10T – 50T</span>
+          <span class="tag">Port Lifts</span>
+          <span class="tag">Certified Ops</span>
+          <span class="tag">24hr Hire</span>
+        </div>
+      </div>
+
+      <!-- Card 3 -->
+      <div class="service-card">
+        <div class="service-num">03</div>
+        <svg class="service-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/><path d="M7 8h10M7 11h7"/></svg>
+        <div class="service-name">Project Logistics</div>
+        <p class="service-desc">End-to-end project cargo management — port clearance coordination, route surveys, abnormal load permits, escort services, and on-site delivery in Uganda, Tanzania, and Rwanda.</p>
+        <div class="service-tags">
+          <span class="tag">Port Clearance</span>
+          <span class="tag">Route Survey</span>
+          <span class="tag">Permits</span>
+          <span class="tag">Cross-border</span>
+        </div>
+      </div>
+
+      <!-- Card 4 -->
+      <div class="service-card">
+        <div class="service-num">04</div>
+        <svg class="service-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
+        <div class="service-name">Port Operations</div>
+        <p class="service-desc">Specialised cargo reception and transport direct from Mombasa Port. Container off-loading, RoRo handling, and bonded cargo transport with full documentation support.</p>
+        <div class="service-tags">
+          <span class="tag">RoRo</span>
+          <span class="tag">Container</span>
+          <span class="tag">Bonded</span>
+          <span class="tag">Mombasa</span>
+        </div>
+      </div>
+
+      <!-- Card 5 -->
+      <div class="service-card">
+        <div class="service-num">05</div>
+        <svg class="service-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+        <div class="service-name">Commission Agency</div>
+        <p class="service-desc">Acting as your trusted commission agent for procurement of haulage services, sub-contracting, and logistics brokerage for clients across the region.</p>
+        <div class="service-tags">
+          <span class="tag">Brokerage</span>
+          <span class="tag">Sub-contract</span>
+          <span class="tag">Advisory</span>
+        </div>
+      </div>
+
+      <!-- Card 6 -->
+      <div class="service-card">
+        <div class="service-num">06</div>
+        <svg class="service-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+        <div class="service-name">24/7 Emergency Haulage</div>
+        <p class="service-desc">Round-the-clock emergency transport for critical infrastructure, oil & gas breakdowns, and time-sensitive industrial deliveries across the corridor.</p>
+        <div class="service-tags">
+          <span class="tag">Emergency</span>
+          <span class="tag">Oil & Gas</span>
+          <span class="tag">Night Ops</span>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- FLEET GALLERY -->
+  <section id="fleet" class="section">
+    <div class="fleet-header">
+      <div class="section-label reveal">Our Iron</div>
+      <h2 class="section-title reveal">The <em>Fleet</em></h2>
+      <p class="reveal" style="color:var(--slate-light);max-width:560px;line-height:1.75;margin-top:0.5rem;">
+        Our fleet of heavy-duty prime movers, low-bed trailers, and mobile cranes keeps East Africa's supply chains moving — 365 days a year.
+      </p>
+    </div>
+    <div class="masonry-grid">
+      <div class="masonry-item reveal">
+        <img src="IMG-20260405-WA0026.jpg" alt="LPG tanker transport at port">
+        <div class="masonry-item-overlay"><span class="masonry-item-label">LPG Tanker Transport</span></div>
+      </div>
+      <div class="masonry-item reveal">
+        <img src="IMG-20260405-WA0022.jpg" alt="JCB excavator loading operations">
+        <div class="masonry-item-overlay"><span class="masonry-item-label">JCB Excavator Delivery</span></div>
+      </div>
+      <div class="masonry-item reveal">
+        <img src="IMG-20260405-WA0023.jpg" alt="Heavy machinery on flatbed">
+        <div class="masonry-item-overlay"><span class="masonry-item-label">Industrial Plant Transport</span></div>
+      </div>
+      <div class="masonry-item reveal">
+        <img src="IMG-20260405-WA0016.jpg" alt="Container yard at dusk">
+        <div class="masonry-item-overlay"><span class="masonry-item-label">Mombasa Port Operations</span></div>
+      </div>
+      <div class="masonry-item reveal">
+        <img src="IMG-20260405-WA0013.jpg" alt="Hitachi excavator on low-bed">
+        <div class="masonry-item-overlay"><span class="masonry-item-label">Hitachi Excavator Haulage</span></div>
+      </div>
+      <div class="masonry-item reveal">
+        <img src="IMG-20260405-WA0011.jpg" alt="Low-bed trailer fleet">
+        <div class="masonry-item-overlay"><span class="masonry-item-label">Low-bed Fleet Ready</span></div>
+      </div>
+      <div class="masonry-item reveal">
+        <img src="IMG-20260405-WA0001.jpg" alt="JCB lift operation at port">
+        <div class="masonry-item-overlay"><span class="masonry-item-label">JCB Crane Lift</span></div>
+      </div>
+      <div class="masonry-item reveal">
+        <img src="IMG-20260405-WA0000.jpg" alt="Motor grader on trailer">
+        <div class="masonry-item-overlay"><span class="masonry-item-label">Motor Grader Delivery</span></div>
+      </div>
+      <div class="masonry-item reveal">
+        <img src="IMG-20260405-WA0025.jpg" alt="Night port cargo operations">
+        <div class="masonry-item-overlay"><span class="masonry-item-label">Night Port Clearance</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- TRUST BAR -->
+  <section id="trust">
+    <div style="max-width:1200px;margin:0 auto 3rem;position:relative;z-index:1;">
+      <div class="section-label reveal" style="justify-content:center">Why Choose Us</div>
+      <h2 class="section-title reveal" style="text-align:center">Built on <em>Trust</em></h2>
+    </div>
+    <div class="trust-inner">
+      <div class="trust-item reveal">
+        <svg class="trust-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
+        <div class="trust-title">24/7 GPS Tracking</div>
+        <p class="trust-desc">Real-time visibility of every load across the entire corridor. Know exactly where your cargo is, always.</p>
+      </div>
+      <div class="trust-item reveal">
+        <svg class="trust-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="M9 12l2 2 4-4"/></svg>
+        <div class="trust-title">Fully Insured GIT</div>
+        <p class="trust-desc">Comprehensive Goods in Transit insurance on all loads. Your cargo is protected from port to destination.</p>
+      </div>
+      <div class="trust-item reveal">
+        <svg class="trust-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="8" r="4"/><path d="M6 20v-2a6 6 0 0112 0v2"/><path d="M9 11l2 2 4-4" opacity="0.4"/></svg>
+        <div class="trust-title">Certified Operators</div>
+        <p class="trust-desc">All crane and heavy-haul operators are fully certified to Kenya Roads Board and industry standards.</p>
+      </div>
+      <div class="trust-item reveal">
+        <svg class="trust-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+        <div class="trust-title">On-Time Delivery</div>
+        <p class="trust-desc">Strict schedule adherence with proactive communication. We understand that project timelines are non-negotiable.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTACT / CTA -->
+  <section id="contact" class="section">
+    <div class="contact-grid">
+      <div>
+        <div class="section-label reveal">Let's Move It</div>
+        <h2 class="section-title reveal">Request a <em>Quote</em></h2>
+        <p class="reveal" style="color:var(--slate-light);font-size:1rem;line-height:1.8;margin-bottom:2rem;">
+          Tell us about your load — size, weight, route, and timeline — and our team will get back to you within 2 hours with a competitive quote tailored to your project.
+        </p>
+
+        <div class="contact-detail reveal">
+          <svg class="contact-detail-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
+          <div class="contact-detail-text">
+            <strong>Head Office</strong>
+            Mombasa, Kenya — Port Reitz Area
+          </div>
+        </div>
+
+        <div class="contact-detail reveal">
+          <svg class="contact-detail-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 9.5 19.79 19.79 0 01.22 5.18 2 2 0 012.18 3h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L6.91 10.09a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/></svg>
+          <div class="contact-detail-text">
+            <strong>Phone / WhatsApp</strong>
+            +254 700 000 000
+          </div>
+        </div>
+
+        <div class="contact-detail reveal">
+          <svg class="contact-detail-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+          <div class="contact-detail-text">
+            <strong>Email</strong>
+            info@cisahauliers.co.ke
+          </div>
+        </div>
+
+        <div class="contact-detail reveal">
+          <svg class="contact-detail-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+          <div class="contact-detail-text">
+            <strong>Hours</strong>
+            Mon – Fri 7:00 AM – 6:00 PM<br>Weekend on-call available
+          </div>
+        </div>
+      </div>
+
+      <div class="reveal">
+        <form id="quote-form" onsubmit="handleSubmit(event)">
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label">Full Name</label>
+              <input class="form-input" type="text" placeholder="John Mwangi" required>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Company</label>
+              <input class="form-input" type="text" placeholder="Your company name">
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label">Phone / WhatsApp</label>
+              <input class="form-input" type="tel" placeholder="+254 7XX XXX XXX" required>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Email</label>
+              <input class="form-input" type="email" placeholder="you@company.com">
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Service Required</label>
+            <select class="form-select" required>
+              <option value="" disabled selected>Select a service...</option>
+              <option>Heavy Haulage</option>
+              <option>Crane Hire (10T – 50T)</option>
+              <option>Project Logistics</option>
+              <option>Port Operations</option>
+              <option>Commission Agency</option>
+              <option>Emergency Haulage</option>
+            </select>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label">Origin</label>
+              <input class="form-input" type="text" placeholder="e.g. Mombasa Port">
+            </div>
+            <div class="form-group">
+              <label class="form-label">Destination</label>
+              <input class="form-input" type="text" placeholder="e.g. Nairobi, Kampala">
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Cargo Description / Special Requirements</label>
+            <textarea class="form-textarea" placeholder="Describe your load, dimensions, weight, timeline, and any special handling requirements..."></textarea>
+          </div>
+
+          <button type="submit" class="btn-primary">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+            Send Quote Request
+          </button>
+        </form>
+        <div id="form-success" style="display:none;margin-top:1.5rem;padding:1.25rem;background:rgba(34,197,94,0.1);border:1px solid rgba(34,197,94,0.3);border-radius:4px;color:#4ade80;font-size:0.9rem;line-height:1.6;">
+          ✓ Your request has been submitted. We'll be in touch within 2 hours.
+        </div>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-logo">CISA<span>.</span> HAULIERS LIMITED</div>
+  <p class="footer-copy">© 2026 Cisa Hauliers Limited. Contractors, Transporters & Commission Agents. Mombasa, Kenya.</p>
+  <ul class="footer-links">
+    <li><a href="#about">About</a></li>
+    <li><a href="#services">Services</a></li>
+    <li><a href="#fleet">Fleet</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+</footer>
+
+<!-- WHATSAPP FLOATING BUTTON -->
+<a id="wa-btn" href="https://wa.me/254700000000?text=Hello%20Cisa%20Hauliers%2C%20I%27d%20like%20to%20request%20a%20quote." target="_blank" rel="noopener" title="Chat on WhatsApp">
+  <svg width="28" height="28" viewBox="0 0 24 24" fill="currentColor">
+    <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
+  </svg>
+</a>
+
+<script>
+  // ─── NAV SCROLL ───
+  const navbar = document.getElementById('navbar');
+  window.addEventListener('scroll', () => {
+    navbar.classList.toggle('scrolled', window.scrollY > 80);
+  }, { passive: true });
+
+  // ─── HERO SCROLL EXPANSION ───
+  const heroWrapper = document.getElementById('hero-wrapper');
+  const heroCard = document.getElementById('hero-card');
+  const wordCisa = document.getElementById('word-cisa');
+  const wordHauliers = document.getElementById('word-hauliers');
+  const heroTagline = document.getElementById('hero-tagline');
+  const scrollHint = document.getElementById('hero-scroll-hint');
+
+  function lerp(a, b, t) { return a + (b - a) * t; }
+
+  function updateHero() {
+    const wrapperRect = heroWrapper.getBoundingClientRect();
+    const wrapperTop = -wrapperRect.top;
+    const wrapperHeight = heroWrapper.offsetHeight - window.innerHeight;
+
+    if (wrapperHeight <= 0) return;
+
+    // 0 → 1 progress through the sticky scroll
+    const progress = Math.max(0, Math.min(1, wrapperTop / wrapperHeight));
+
+    // Card expansion: 0% → 100% of viewport
+    const cardW = lerp(68, 100, Math.min(progress * 1.4, 1));
+    const cardH = lerp(72, 100, Math.min(progress * 1.4, 1));
+    const cardRadius = lerp(8, 0, Math.min(progress * 1.4, 1));
+
+    heroCard.style.width = cardW + 'vw';
+    heroCard.style.height = cardH + 'vh';
+    heroCard.style.borderRadius = cardRadius + 'px';
+
+    // Title split: slide CISA left, HAULIERS right
+    const titleProgress = Math.min(progress * 2.2, 1);
+    const translateX = titleProgress * 120;
+    wordCisa.style.transform = `translateX(-${translateX}vw)`;
+    wordHauliers.style.transform = `translateX(${translateX}vw)`;
+
+    // Tagline fade
+    heroTagline.style.opacity = Math.max(0, 1 - progress * 5);
+
+    // Scroll hint fade
+    scrollHint.style.opacity = Math.max(0, 1 - progress * 8);
+  }
+
+  window.addEventListener('scroll', updateHero, { passive: true });
+  updateHero(); // init
+
+  // ─── REVEAL ON SCROLL ───
+  const revealEls = document.querySelectorAll('.reveal');
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(el => {
+      if (el.isIntersecting) {
+        el.target.classList.add('visible');
+        observer.unobserve(el.target);
+      }
+    });
+  }, { threshold: 0.12 });
+  revealEls.forEach(el => observer.observe(el));
+
+  // ─── FORM SUBMIT ───
+  function handleSubmit(e) {
+    e.preventDefault();
+    document.getElementById('quote-form').style.display = 'none';
+    document.getElementById('form-success').style.display = 'block';
+  }
+</script>
+</body>
+</html>
